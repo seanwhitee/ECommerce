@@ -1,0 +1,21 @@
+cookie:
+  expiry_days: 30
+  key: abcde
+  name: st-ecommerce
+credentials:
+  usernames:
+    mary:
+      email: marytest.com
+      name: Mary
+      password: $2b$12$nNsUSS.Sh4AH6hjnYbgzPuzklKaHjcjvDRNXuu4wVyjVifBTPoKhe
+    sean:
+      email: blackseanx@gmail.com
+      name: Sean Pai
+      password: $2b$12$gpIPJE7o9fgTXqY.fXcHTuotwh0GVYClAAJfiEl2b6eHuM/vv/h4O
+    test_user1:
+      email: test@gmail.com
+      name: Test_User1
+      password: $2b$12$wFoXoIEXwQv/VX1LZW3BQugcPN1Y8J9wX8xZ8cmdZId8rOfLsogDa
+preauthorized:
+  emails:
+  - blackseanx@gmail.com
