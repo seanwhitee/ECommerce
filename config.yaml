@@ -7,7 +7,7 @@ credentials:
     mary:
       email: marytest.com
       name: Mary
-      password: $2b$12$nNsUSS.Sh4AH6hjnYbgzPuzklKaHjcjvDRNXuu4wVyjVifBTPoKhe
+      password: $2b$12$NUA5wCGwZqf9vV3afBQeE.J3wpzHcCnMhCZD.4.7Tw.Epmb8rD1aW
     sean:
       email: blackseanx@gmail.com
       name: Sean Pai

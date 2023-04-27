@@ -1,17 +1,6 @@
 import mysql.connector
 import pandas as pd
 import streamlit as st
-
-# def get_credential_info(conn: mysql.connector):
-#     cur = conn.cursor()
-#     query = f"""
-#     SELECT * FROM users;
-#     """
-     
-#     cur.execute(query)
-#     data = cur.fetchall()
-#     users_credential_df = pd.DataFrame(data, columns=['username', 'password', 'name', 'email'])
-#     return users_credential_df
     
 def get_product(conn:mysql.connector, product_id):
     cur = conn.cursor()

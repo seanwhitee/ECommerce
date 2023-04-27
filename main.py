@@ -24,7 +24,7 @@ def main():
     ### Connect to database
     conn = connect() 
     
-    ### User login
+    # --- User login ---
     with open('./config.yaml') as file:
         config = yaml.load(file, Loader=SafeLoader)
 
@@ -65,11 +65,14 @@ def main():
                 try:
                     username_forgot_pw, email_forgot_password, random_password = authenticator.forgot_password('Forgot password')
                     if username_forgot_pw:
-                        st.success('New password sent securely')
+                        
                         # Random password to be transferred to user securely
+                        st.success('New password sent securely')
                         
                         # print the new password on my terminal, or you can use alternative way to send to you
+                        # Maybe implement some feature like sending password to user email or sth.
                         print(random_password)
+                        
                         # Update config.yaml file
                         with open('./config.yaml', 'w') as file:
                             yaml.dump(config, file, default_flow_style=False)
@@ -94,6 +97,8 @@ def main():
                         st.error('Email not found')
                 except Exception as e:
                     st.error(e)
+                    
+    # --- End of login process ---
        
     # Login successfully
     if authentication_status:
