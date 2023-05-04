@@ -3,10 +3,9 @@ import streamlit as st  # pip install streamlit
 import streamlit_authenticator as stauth
 import yaml
 from yaml.loader import SafeLoader
-from database import (
-    connect
-)
-from products import product_page
+from database import *
+from streamlit_option_menu import option_menu
+from products import *
 
 
 def load_css_file(css_file_path):
@@ -99,36 +98,108 @@ def main():
                     st.error(e)
                     
     # --- End of login process ---
-       
+
     # Login successfully
     if authentication_status:
-        
+            
         # If login successfully, user should not see forgot password. register...
         with placeholder:
             st.text("") 
             
         st.sidebar.title(f'Welcome *{name}*')
         
-        
         with st.sidebar:
+            
+            bar = option_menu(
+                menu_title= 'Function Table',
+                menu_icon='gear',
+                options=['Your Cart', 'Add To Cart'],
+                
+            )
+            
+            ### Perform the shopping cart function
+            if bar == 'Your Cart':
+                
+                menu = ['View Cart Products', 'Delete Item']
+                choice = st.sidebar.selectbox("Menu", menu)
+                
+                if choice == 'Delete Item':
+                    
+                    your_cart_df = view_cart_items(conn, username)
+                    all_buy_ids = list(your_cart_df.get('buy_id'))
+                    all_cart_products_ids = list(your_cart_df.get('product_id'))
+                    
+                    with st.form('Delete something... ?'):
+                        buy_id = st.text_input('buy_id', placeholder='Buy Id...')
+                        deleted_product_id = st.text_input('product_id', placeholder='Product id...')
+                        
+                        if st.form_submit_button('Delete'):
+                    
+                            if buy_id in all_buy_ids and deleted_product_id in all_cart_products_ids and all_cart_products_ids[all_buy_ids.index(buy_id)] == deleted_product_id:
+                                if st.success(f'Successfully delete product_id {deleted_product_id}'):
+                                        
+                                        delete_item_from_cart(conn, buy_id)
+                            else:
+                                st.error(f'The buy_id or product_id may be wrong value.') 
+                    
+                elif choice == 'View Cart Products':
+                    
+                    # View product detail
+                    your_cart_df = view_cart_items(conn, username)
+                    st.dataframe(your_cart_df)
+                    
+                    # prepare for checkout
+                    item_ids = list(your_cart_df.get('product_id'))
+                    
+                    product_links = get_product_link()
+                    
+                    with st.expander('Want to checkout ?', ):
+                        st.text("")
+                        for item_id in item_ids:
+                            
+                            # show product name and id
+                            st.markdown(f'<strong>{item_id}</strong>. <strong>{product_links[item_id][0]}</strong>', unsafe_allow_html=True)
+                        
+                            # show strip checkout
+                            st.markdown(
+                                f'<a href={product_links[item_id][1]} class="button">👉 Buy</a>',
+                                unsafe_allow_html=True,
+                            )
+                    
+                
+            ### Perform the add to cart function function
+            elif bar == 'Add To Cart':
+                with st.form('Buy something... ?', clear_on_submit=True):
+                    product_id = st.text_input('product_id', placeholder='Product Id...')
+                    product_name = st.text_input('product_name', placeholder='Product Name...')
+                    product_links = get_product_link()
+                    if st.form_submit_button('Add it'):
+                        
+                        if is_no_duplicate(conn, username, product_id) and is_product_exist(conn, product_id, product_name) and product_links[product_id][0] == product_name:
+                            if st.success(f'Successfully add product {product_name}'):
+                                # if no duplicate product, then add to cart
+                                add_to_cart(conn, username, product_id)
+                        else:
+                            if not is_no_duplicate(conn, username, product_id):
+                                st.error(f'The {product_name} already in your cart.')
+                            elif not is_product_exist(conn, product_id, product_name):
+                                st.error(f'The product_id or product_name may be wrong value.')
+                            else:
+                                st.error('name and id not match.')
+                        
+                            
+                            
+                        
+                        
             
             # line break before logout button ...    
             st.markdown("""<br>""", unsafe_allow_html=True)
             st.markdown("""<br>""", unsafe_allow_html=True)
-            st.markdown("""<br>""", unsafe_allow_html=True)
-            st.markdown("""<br>""", unsafe_allow_html=True)
-            st.markdown("""<br>""", unsafe_allow_html=True)
-            st.markdown("""<br>""", unsafe_allow_html=True)
-            st.markdown("""<br>""", unsafe_allow_html=True)
-            st.markdown("""<br>""", unsafe_allow_html=True)
-            st.markdown("""<br>""", unsafe_allow_html=True)
-            st.markdown("""<br>""", unsafe_allow_html=True)
-            st.markdown("""<br>""", unsafe_allow_html=True)
-            st.markdown("""<br>""", unsafe_allow_html=True)
-            st.markdown("""<br>""", unsafe_allow_html=True)
             
             
-            # Add line before logout button ...
+            
+            
+            ## Add line before logout button ...
             st.markdown("""<hr class="between-footer-and-content">""", unsafe_allow_html=True)
         
         # logout button
@@ -172,7 +243,7 @@ def main():
         load_css_file(CSS_FILE)
         
         # Enter product page
-        product_page(conn)
+        product_page(conn, username)
         
     elif authentication_status is False:
         st.error('Username/password is incorrect')

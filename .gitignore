@@ -2,3 +2,4 @@ st-ecommerce
 .streamlit/secrets.toml
 helper.py
 .DS_Store
+config.yaml
