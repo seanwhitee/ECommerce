@@ -43,3 +43,4 @@ user = ""
 password = ""
 ```
 ### 4. Create config.yaml
+You can follow the instruction [here](https://github.com/mkhorasani/Streamlit-Authenticator).
