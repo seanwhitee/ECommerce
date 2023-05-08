@@ -1,4 +1,4 @@
-# system-design-final
+# personal-e-commerce
 
 ## Database design
 ```
