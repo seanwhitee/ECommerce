@@ -3,7 +3,15 @@ import pandas as pd
 import streamlit as st
 import random
   
-
+def add_new_user(conn:mysql.connector.connect, username, password, name, email):
+    cur = conn.cursor()
+    query = f"""
+        INSERT INTO users
+        values ('{username}', '{password}', '{email}');
+        """
+    cur.execute(query)
+    conn.commit()
+    
 def view_cart_items(conn:mysql.connector.connect, username):
     cur = conn.cursor()
     query = f"""
@@ -84,7 +92,6 @@ def get_product(conn:mysql.connector.connect, product_id):
     return product_df
 
 # Connect to database and return the database connection object.
-@st.cache_resource
 def connect():
     
     

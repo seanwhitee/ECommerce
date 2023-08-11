@@ -1,4 +1,4 @@
-# personal-e-commerce
+# e-commerce
 
 ## Database design
 ```

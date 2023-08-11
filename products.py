@@ -50,6 +50,7 @@ def product_page(conn, username):
             with left_col:
                 st.header(f"{product_ids[i]}. {product_names[i]}")
                 st.text("")
+                st.subheader(f"US${product_prices[i]}.00")
                 description = product_descriptions[i].splitlines(True)
             
                 for sentence in description:
@@ -62,7 +63,7 @@ def product_page(conn, username):
             if not i == len(product_ids) - 1:
                 # # Add line before logout button ...
                 st.markdown("""<hr class="between-footer-and-content">""", unsafe_allow_html=True)
-                
+      
+# testing session          
 if __name__ == '__main__':
-    conn = connect()
-    product_page(conn, 'test')
+    pass

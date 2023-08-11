@@ -12,7 +12,7 @@ def load_css_file(css_file_path):
         with open(css_file_path) as f:
             return st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 def main():
-    ### --- PAGE CONFIG ---
+    # --- PAGE CONFIG ---
     st.set_page_config(
         page_title='abc',
         page_icon=":star:",
@@ -20,7 +20,7 @@ def main():
         
     )
     
-    ### Connect to database
+    # Connect to database
     conn = connect() 
     
     # --- User login ---
@@ -42,24 +42,25 @@ def main():
     with placeholder:
         with st.container():
             
-            ## Login session
+            # Login session
             with st.expander('Login'):
                 name, authentication_status, username = authenticator.login('Login', 'main')
                 
-            ## Registration session
+            # Registration session
             with st.expander('Registration'):
                 try:
                     if authenticator.register_user('Register user', preauthorization=False):
                         st.success('User registered successfully')
-                        
+                        print(config['credentials'])
                         # Update config.yaml file
                         with open('./config.yaml', 'w') as file:
                             yaml.dump(config, file, default_flow_style=False)
                             
+                        
                 except Exception as e:
                     st.error(e)
 
-            ## Forgot password
+            # Forgot password
             with st.expander('Forgot password'):
                 try:
                     username_forgot_pw, email_forgot_password, random_password = authenticator.forgot_password('Forgot password')
@@ -81,7 +82,7 @@ def main():
                 except Exception as e:
                     st.error(e)
                 
-            ## Forgot username
+            # Forgot username
             with st.expander('Forgot username'):
                 try:
                     username_forgot_username, email_forgot_username = authenticator.forgot_username('Forgot username')
@@ -117,7 +118,7 @@ def main():
                 
             )
             
-            ### Perform the shopping cart function
+            # Perform the shopping cart function
             if bar == 'Your Cart':
                 
                 menu = ['View Cart Products', 'Delete Item']
@@ -167,7 +168,7 @@ def main():
                             )
                     
                 
-            ### Perform the add to cart function function
+            # Perform the add to cart function function
             elif bar == 'Add To Cart':
                 with st.form('Buy something... ?', clear_on_submit=True):
                     product_id = st.text_input('product_id', placeholder='Product Id...')
@@ -199,7 +200,7 @@ def main():
             
             
             
-            ## Add line before logout button ...
+            # Add line before logout button ...
             st.markdown("""<hr class="between-footer-and-content">""", unsafe_allow_html=True)
         
         # logout button
@@ -207,7 +208,7 @@ def main():
         
         with st.sidebar:
             
-            ## Reset password
+            # Reset password
             with st.expander('Reset password'):
                 try:
                     if authenticator.reset_password(username, 'Reset password'):
@@ -219,7 +220,7 @@ def main():
                 except Exception as e:
                     st.error(e)
                     
-            ## Reset user detail
+            # Reset user detail
             with st.expander('Reset user detail'):
                 try:
                     if authenticator.update_user_details(username, 'Update user details'):
