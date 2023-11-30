@@ -1,4 +1,4 @@
-# e-commerce
+# ECommerce
 [Youtube Demo](https://youtu.be/TKgHaxGVatA)
 ## Database design
 ```
