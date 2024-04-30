@@ -2,6 +2,6 @@ mysql-connector-python==8.0.33
 numpy==1.24.3
 pandas==1.5.3
 Pillow==10.3.0
-streamlit==1.21.0
+streamlit==1.30.0
 streamlit-authenticator==0.2.1
 streamlit-option-menu==0.3.2
